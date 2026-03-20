@@ -46,13 +46,20 @@ def register_tab(parent_win,main_win,main_func):
                     "Programming": "books//programming.txt",
                     "Economics": "books//economics.txt"
                 }
-                with open(files[selected_option.get()], 'a') as f:
-                    f.write(book + "," + bid + "\n")
+                barred_id_chars = ["!","@","$","%","^","&","*","(",")","-","_","+","=","~","`","'","<",">",",",".","/","|",":",";","{","}","[","]"]
+                flag=0
+                for let in bid:
+                     if let in barred_id_chars:
+                          flag=1
+                if not flag:
+                    with open(files[selected_option.get()], 'a') as f:
+                        f.write(book + "," + bid + "\n")
 
-                pymsgbox.alert("Book Registered Successfully")
-                booktxt.delete("1.0", END)
-                bookidtxt.delete("1.0", END)
-
+                    pymsgbox.alert("Book Registered Successfully")
+                    booktxt.delete("1.0", END)
+                    bookidtxt.delete("1.0", END)
+                else:
+                    pymsgbox.alert("Barred characters like !@$^&*()-_+=~`'<>,./|:'{'}'[] found in Book ID.")
             Button(registerwin, text="✔ Register", command=registerbook,
                    fg=BTN_FG, bg=BTN_BG, font=FONT_BTN,
                    width=18, height=2, bd=0).place(x=560, y=460)
