@@ -186,3 +186,5 @@ def opencmd(parent_win,main_win,main_func,app_pass):
         menu_button("📤 Lend Book",lambda:lend_tab(openwin,main_win,main_func), 340,openwin)
         menu_button("📥 Register Return",lambda:returnbookwin(openwin,main_win,main_func), 400,openwin)
         menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 460,openwin)
+def nall():
+     pass
