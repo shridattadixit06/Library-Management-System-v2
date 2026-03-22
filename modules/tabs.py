@@ -175,7 +175,6 @@ def opencmd(parent_win,main_win,main_func,app_pass):
         parent_win.destroy()
         openwin = Canvas(main_win, bg=BG_MAIN, highlightthickness=0)
         openwin.pack(fill="both", expand=True)  
-        actions.navbar_button(openwin,"Books",lambda: actions.display_books('books\\programming.txt',openwin,20,100,25,25),50,50)
         Label(openwin, text="Library Dashboard", font=FONT_TITLE,
               fg=LBL_FG, bg=BG_MAIN).place(relx=0.5, y=140, anchor="center")
         
@@ -186,4 +185,5 @@ def opencmd(parent_win,main_win,main_func,app_pass):
         menu_button("📘 Register Book",lambda:register_tab(openwin,main_win,main_func), 280,openwin)
         menu_button("📤 Lend Book",lambda:lend_tab(openwin,main_win,main_func), 340,openwin)
         menu_button("📥 Register Return",lambda:returnbookwin(openwin,main_win,main_func), 400,openwin)
-        menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 460,openwin)
+        menu_button("📘 Available Books",lambda: actions.display_books("books\\programming.txt",openwin,50,50,25,25),460,openwin)
+        menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 520,openwin)
