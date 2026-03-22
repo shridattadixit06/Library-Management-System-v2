@@ -16,6 +16,6 @@ def main():
     Button(mainwin, text="OPEN LIBRARY", command=lambda:tabs.opencmd(mainwin,win,main,APP_PASSWORD),
            fg=BTN_FG, bg=BTN_BG, font=FONT_TITLE,
            width=20, height=2, bd=0).place(relx=0.5, rely=0.5, anchor="center")
-
+    
 main()
 win.mainloop()

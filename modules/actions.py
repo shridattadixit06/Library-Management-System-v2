@@ -8,3 +8,5 @@ def menu_button(text, cmd, y, win_name):
                 width=25, height=2, bd=0,
                 cursor="hand2"
             ).place(relx=0.5, y=y, anchor="center")
+def navbar(win_name,text,comm):
+        pass
