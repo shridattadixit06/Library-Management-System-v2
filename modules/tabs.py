@@ -2,7 +2,7 @@ from tkinter import *
 from modules.stylings import *
 import pymsgbox
 from modules.actions import menu_button
-import actions
+import modules.actions as actions
 
 def register_tab(parent_win,main_win,main_func):
             parent_win.destroy()
@@ -175,9 +175,7 @@ def opencmd(parent_win,main_win,main_func,app_pass):
         parent_win.destroy()
         openwin = Canvas(main_win, bg=BG_MAIN, highlightthickness=0)
         openwin.pack(fill="both", expand=True)  
-        def display_books():
-             pass
-        actions.navbar(openwin,"Hello",display_books)
+        actions.navbar_button(openwin,"Books",lambda: actions.display_books('books\\programming.txt',openwin,20,100,25,25),50,50)
         Label(openwin, text="Library Dashboard", font=FONT_TITLE,
               fg=LBL_FG, bg=BG_MAIN).place(relx=0.5, y=140, anchor="center")
         
