@@ -41,7 +41,7 @@ def register_tab(parent_win,main_win,main_func):
                 if not book or not bid:
                     pymsgbox.alert("All fields are required")
                     return
-
+                global files
                 files = {
                     "Science": "books//science.txt",
                     "Programming": "books//programming.txt",
@@ -185,5 +185,5 @@ def opencmd(parent_win,main_win,main_func,app_pass):
         menu_button("📘 Register Book",lambda:register_tab(openwin,main_win,main_func), 280,openwin)
         menu_button("📤 Lend Book",lambda:lend_tab(openwin,main_win,main_func), 340,openwin)
         menu_button("📥 Register Return",lambda:returnbookwin(openwin,main_win,main_func), 400,openwin)
-        menu_button("📘 Available Books",lambda: actions.display_books("books\\programming.txt",openwin,50,50,25,25),460,openwin)
+        menu_button("📘 Available Books",lambda: actions.display_books(openwin,50,50,25,25),460,openwin)
         menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 520,openwin)
