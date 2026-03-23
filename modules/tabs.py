@@ -100,8 +100,7 @@ def lend_tab(parent_win,main_win,main_func):
                 cursor=connection.cursor()
                 cmd = """CREATE TABLE IF NOT EXISTS lentbooks(name TEXT,usn INTEGER,bookID TEXT PRIMARY KEY)"""
                 cursor.execute(cmd)
-                cmd2 = f"INSERT INTO lentbooks VALUES('{vals[0]}',{vals[1]},{vals[2]})"
-                cursor.execute(cmd2)
+                cursor.execute("INSERT INTO lentbooks (name, usn, bookID) VALUES(?, ?, ?)",(vals[0],vals[1],vals[2]))
                 connection.commit()
                 cursor.execute("SELECT * FROM lentbooks")
                 connection.commit()
@@ -196,7 +195,23 @@ def opencmd(parent_win,main_win,main_func,app_pass):
                 cursor = connection.cursor()
                 cursor.execute("SELECT * FROM lentbooks")
                 results=cursor.fetchall()
-                print(results)
+                t = Text(openwin,height=25,width=50)
+                t.place(x=810,y=50)
+                t.tag_configure("bold_tag", font=("Arial", 12, "bold"))
+                t.config(state='normal')
+                t.insert(END, "STUDENT NAME"+'\t\t\t')
+                t.insert(END, "STUDENT USN"+'\t\t')
+                t.insert(END, "BOOK ID"+'\n')
+                for info in results:
+                     t.insert(END, info[0]+'\t\t\t')
+                     t.insert(END, str(info[1])+'\t\t')
+                     t.insert(END, info[2]+'\n')
+                t.config(state='disabled')
+                def des_display():
+                    t.destroy()
+                    c_display.destroy()
+                c_display = Button(openwin,text="Close",command=des_display,fg=BTN_FG,bg=BTN_BG,font=FONT_BTN)
+                c_display.place(x=965,y=460)
                 cursor.close()
                 connection.close()
              else:
