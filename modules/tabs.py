@@ -102,12 +102,10 @@ def lend_tab(parent_win,main_win,main_func):
                 cursor.execute(cmd)
                 cmd2 = f"INSERT INTO lentbooks VALUES('{vals[0]}',{vals[1]},{vals[2]})"
                 cursor.execute(cmd2)
+                connection.commit()
                 cursor.execute("SELECT * FROM lentbooks")
-                results = cursor.fetchall()
-                print(results)
-                with open("lend.txt", "a") as f:
-                    f.write(",".join(vals) + "\n")
-
+                connection.commit()
+                cursor.close()
                 pymsgbox.alert("Book Lent Successfully")
                 for e in entries:
                     e.delete("1.0", END)
@@ -190,9 +188,23 @@ def opencmd(parent_win,main_win,main_func,app_pass):
         def exttoopen(mwin,mainfunction):
              mwin.destroy()
              mainfunction()
-
+        global display_register
+        def display_register(path):
+             pwd = pymsgbox.password("Enter Password","Security Verification")
+             if pwd==app_pass:
+                connection = sqlite3.connect(path)
+                cursor = connection.cursor()
+                cursor.execute("SELECT * FROM lentbooks")
+                results=cursor.fetchall()
+                print(results)
+                cursor.close()
+                connection.close()
+             else:
+                  pymsgbox.alert("Wrong password")      
         menu_button("📘 Register Book",lambda:register_tab(openwin,main_win,main_func), 280,openwin)
         menu_button("📤 Lend Book",lambda:lend_tab(openwin,main_win,main_func), 340,openwin)
         menu_button("📥 Register Return",lambda:returnbookwin(openwin,main_win,main_func), 400,openwin)
         menu_button("📘 Available Books",lambda: actions.display_books(openwin,50,50,25,25),460,openwin)
-        menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 520,openwin)
+        menu_button("📘 Lent Register", lambda:display_register("books\\lent.db"),520,openwin)
+        menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 580,openwin)
+        
