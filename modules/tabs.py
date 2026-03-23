@@ -3,6 +3,7 @@ from modules.stylings import *
 import pymsgbox
 from modules.actions import menu_button
 import modules.actions as actions
+import sqlite3
 
 def register_tab(parent_win,main_win,main_func):
             parent_win.destroy()
@@ -95,7 +96,15 @@ def lend_tab(parent_win,main_win,main_func):
                 if "" in vals:
                     pymsgbox.alert("All fields are required")
                     return
-
+                connection = sqlite3.connect("books//lent.db")
+                cursor=connection.cursor()
+                cmd = """CREATE TABLE IF NOT EXISTS lentbooks(name TEXT,usn INTEGER,bookID TEXT PRIMARY KEY)"""
+                cursor.execute(cmd)
+                cmd2 = f"INSERT INTO lentbooks VALUES('{vals[0]}',{vals[1]},{vals[2]})"
+                cursor.execute(cmd2)
+                cursor.execute("SELECT * FROM lentbooks")
+                results = cursor.fetchall()
+                print(results)
                 with open("lend.txt", "a") as f:
                     f.write(",".join(vals) + "\n")
 
