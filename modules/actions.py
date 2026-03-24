@@ -35,5 +35,3 @@ def display_books(win_name,xc,yc,h,w):
                close_display.destroy()
         close_display = Button(win_name,command=destroy_display,text="Close Display",font=FONT_BTN,bg=BTN_BG,fg=BTN_FG)
         close_display.place(x=xc+40,y=yc+420)
-def navbar_button(win_name,text,comm,xcoord,ycoord):
-       Button(win_name,text=text,command=comm).place(x=xcoord,y=ycoord)
