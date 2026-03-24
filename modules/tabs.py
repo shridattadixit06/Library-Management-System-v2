@@ -4,15 +4,24 @@ import pymsgbox
 from modules.actions import menu_button
 import modules.actions as actions
 import sqlite3
+import os
+global agf
+global response
+global categories
+global selected_option
 
 def register_tab(parent_win,main_win,main_func):
             parent_win.destroy()
             registerwin = Canvas(main_win, bg=BG_MAIN, highlightthickness=0)
             registerwin.pack(fill="both", expand=True)
 
-            categories = ['Programming', 'Economics', 'Science']
+            fle = open("genres.txt",'r')
+            categories = list()
+            for line in fle:
+                categories.append(line.rstrip("\n"))
+            global selected_option
             selected_option = StringVar(value=categories[0])
-
+        
             Label(registerwin, text="Register Book", font=FONT_TITLE,
                   fg=LBL_FG, bg=BG_MAIN).place(relx=0.5, y=120, anchor="center")
 
@@ -35,7 +44,37 @@ def register_tab(parent_win,main_win,main_func):
             bookidtxt = Text(registerwin, width=30, height=1,
                              font=FONT_ENTRY, bg=ENTRY_BG)
             bookidtxt.place(x=540, y=400)
-
+            def addgenre():
+                 global response
+                 response=''
+                 global agf
+                 agf=0
+                 response = pymsgbox.prompt("Enter the name of Genre","Addition of New Genre")
+                 flag=0
+                 if response=='':
+                    flag=1
+                 if not response:
+                    f = open("genres.txt",'a')
+                    r = response.capitalize()
+                    f.write(r+'\n') 
+                    response=response.lower()
+                    tablename=response
+                    response+="_books.db"
+                    categories = list()                    
+                    for line in f:
+                        categories.append(line.rstrip("\n"))
+                    global selected_option
+                    selected_option = StringVar(value=categories[0])
+                    OptionMenu(registerwin, selected_option, *categories)\
+                .place(x=540, y=250)
+                    rp="books\\"+response
+                    conn=sqlite3.connect(rp)
+                    cursor=conn.cursor()
+                    cmd = "CREATE TABLE IF NOT EXISTS "+tablename+"(bookname TEXT, bookID TEXT PRIMARY KEY)"
+                    cursor.execute(cmd)
+                    cursor.close()
+                    conn.commit()
+                    conn.close()   
             def registerbook():
                 book = booktxt.get("1.0", "end-1c")
                 bid = bookidtxt.get("1.0", "end-1c")
@@ -49,26 +88,40 @@ def register_tab(parent_win,main_win,main_func):
                      if let in barred_id_chars:
                           flag=1
                 if not flag:
-                    conn = sqlite3.connect("books\\"+selected_option.get())
-                    cursor = conn.cursor()
-                    cursor.execute("INSERT INTO "+selected_option.get().lower()+" (bookname, bookID) VALUES(?, ?)",(book,bid))
-                    conn.commit()
-                    pymsgbox.alert("Book Registered Successfully")
-                    booktxt.delete("1.0", END)
-                    bookidtxt.delete("1.0", END)
-                    cursor.close()
-                    conn.close()
+                    if agf==0:
+                        conn = sqlite3.connect("books\\"+selected_option.get())
+                        cursor = conn.cursor()
+                        cursor.execute("INSERT INTO "+selected_option.get().lower()+" (bookname, bookID) VALUES(?, ?)",(book,bid))
+                        conn.commit()
+                        pymsgbox.alert("Book Registered Successfully")
+                        booktxt.delete("1.0", END)
+                        bookidtxt.delete("1.0", END)
+                        cursor.close()
+                        conn.close()
+                    if agf==1:
+                        conn = sqlite3.connect("books\\"+response.lower()+"_books.db")
+                        cursor = conn.cursor()
+                        cursor.execute("INSERT INTO "+selected_option.get().lower()+" (bookname, bookID) VALUES(?, ?)",(book,bid))
+                        conn.commit()
+                        pymsgbox.alert("Book Registered Successfully")
+                        booktxt.delete("1.0", END)
+                        bookidtxt.delete("1.0", END)
+                        cursor.close()
+                        conn.close()
 
                 else:
                     pymsgbox.alert("Barred characters like !@$^&*()-_+=~`'<>,./|:'{'}'[] found in Book ID.")
             Button(registerwin, text="✔ Register", command=registerbook,
                    fg=BTN_FG, bg=BTN_BG, font=FONT_BTN,
                    width=18, height=2, bd=0).place(x=560, y=460)
+            Button(registerwin, text="+ Add Genre", command=addgenre,
+                   fg=BTN_FG, bg=BTN_BG, font=FONT_BTN,
+                   width=18, height=2, bd=0).place(x=560, y=520)
 
             Button(registerwin, text="⬅ Back",
                    command=lambda: (registerwin.destroy(), main_func()),
                    fg=BTN_FG, bg=BTN_EXIT, font=FONT_BTN,
-                   width=18, height=2, bd=0).place(x=560, y=520)
+                   width=18, height=2, bd=0).place(x=560, y=580)
 def lend_tab(parent_win,main_win,main_func):
             parent_win.destroy()
             lendwin = Canvas(main_win, bg=BG_MAIN, highlightthickness=0)
