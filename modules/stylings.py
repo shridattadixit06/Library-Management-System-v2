@@ -11,7 +11,7 @@ FONT_BTN = ("Segoe UI", 12, "bold")
 FONT_ENTRY = ("Segoe UI", 11)
 
 files = {
-                    "Science": "books//science.txt",
-                    "Programming": "books//programming.txt",
-                    "Economics": "books//economics.txt"
+                    "Science": "books//science_books.db",
+                    "Programming": "books//programming_books.db",
+                    "Economics": "books//economics_books.db"
                 }

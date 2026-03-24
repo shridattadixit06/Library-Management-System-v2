@@ -42,11 +42,6 @@ def register_tab(parent_win,main_win,main_func):
                 if not book or not bid:
                     pymsgbox.alert("All fields are required")
                     return
-                """files = {
-                    "Science": "books//science_books.db",
-                    "Programming": "books//programming_books.db",
-                    "Economics": "books//economics_books.db"
-                }"""
 
                 barred_id_chars = ["!","@","$","%","^","&","*","(",")","-","_","+","=","~","`","'","<",">",",",".","/","|",":",";","{","}","[","]"]
                 flag=0
@@ -56,13 +51,14 @@ def register_tab(parent_win,main_win,main_func):
                 if not flag:
                     conn = sqlite3.connect(files[selected_option.get()])
                     cursor = conn.cursor()
-                    cmd = "INSERT INTO "+selected_option.get().lower()+""
-                    with open(files[selected_option.get()], 'a') as f:
-                        f.write(book + "," + bid + "\n")
-
+                    cursor.execute("INSERT INTO "+selected_option.get().lower()+" (bookname, bookID) VALUES(?, ?)",(book,bid))
+                    conn.commit()
                     pymsgbox.alert("Book Registered Successfully")
                     booktxt.delete("1.0", END)
                     bookidtxt.delete("1.0", END)
+                    cursor.close()
+                    conn.close()
+
                 else:
                     pymsgbox.alert("Barred characters like !@$^&*()-_+=~`'<>,./|:'{'}'[] found in Book ID.")
             Button(registerwin, text="✔ Register", command=registerbook,
