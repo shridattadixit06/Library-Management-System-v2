@@ -42,18 +42,21 @@ def register_tab(parent_win,main_win,main_func):
                 if not book or not bid:
                     pymsgbox.alert("All fields are required")
                     return
-                global files
-                files = {
-                    "Science": "books//science.txt",
-                    "Programming": "books//programming.txt",
-                    "Economics": "books//economics.txt"
-                }
+                """files = {
+                    "Science": "books//science_books.db",
+                    "Programming": "books//programming_books.db",
+                    "Economics": "books//economics_books.db"
+                }"""
+
                 barred_id_chars = ["!","@","$","%","^","&","*","(",")","-","_","+","=","~","`","'","<",">",",",".","/","|",":",";","{","}","[","]"]
                 flag=0
                 for let in bid:
                      if let in barred_id_chars:
                           flag=1
                 if not flag:
+                    conn = sqlite3.connect(files[selected_option.get()])
+                    cursor = conn.cursor()
+                    cmd = "INSERT INTO "+selected_option.get().lower()+""
                     with open(files[selected_option.get()], 'a') as f:
                         f.write(book + "," + bid + "\n")
 
