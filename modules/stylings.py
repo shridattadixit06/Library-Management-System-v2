@@ -9,9 +9,3 @@ FONT_TITLE = ("Segoe UI", 22, "bold")
 FONT_LABEL = ("Segoe UI", 12)
 FONT_BTN = ("Segoe UI", 12, "bold")
 FONT_ENTRY = ("Segoe UI", 11)
-
-files = {
-                    "Science": "books//science_books.db",
-                    "Programming": "books//programming_books.db",
-                    "Economics": "books//economics_books.db"
-                }

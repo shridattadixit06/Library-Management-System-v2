@@ -49,7 +49,7 @@ def register_tab(parent_win,main_win,main_func):
                      if let in barred_id_chars:
                           flag=1
                 if not flag:
-                    conn = sqlite3.connect(files[selected_option.get()])
+                    conn = sqlite3.connect("books\\"+selected_option.get())
                     cursor = conn.cursor()
                     cursor.execute("INSERT INTO "+selected_option.get().lower()+" (bookname, bookID) VALUES(?, ?)",(book,bid))
                     conn.commit()
@@ -215,10 +215,10 @@ def opencmd(parent_win,main_win,main_func,app_pass):
                 connection.close()
              else:
                   pymsgbox.alert("Wrong password")      
-        menu_button("📘 Register Book",lambda:register_tab(openwin,main_win,main_func), 280,openwin)
-        menu_button("📤 Lend Book",lambda:lend_tab(openwin,main_win,main_func), 340,openwin)
-        menu_button("📥 Register Return",lambda:returnbookwin(openwin,main_win,main_func), 400,openwin)
-        menu_button("📘 Available Books",lambda: actions.display_books(openwin,50,50,25,25),460,openwin)
-        menu_button("📘 Lent Register", lambda:display_register("books\\lent.db"),520,openwin)
-        menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 580,openwin)
+        menu_button("📘 Register Book",lambda:register_tab(openwin,main_win,main_func), 220,openwin)
+        menu_button("📤 Lend Book",lambda:lend_tab(openwin,main_win,main_func), 280,openwin)
+        menu_button("📥 Register Return",lambda:returnbookwin(openwin,main_win,main_func), 340,openwin)
+        menu_button("📘 Available Books",lambda: actions.display_books(openwin,50,50,25,25),400,openwin)
+        menu_button("📘 Lent Register", lambda:display_register("books\\lent.db"),460,openwin)
+        menu_button("❌ Exit", lambda: exttoopen(openwin,main_func), 520,openwin)
         
